@@ -1,49 +1,39 @@
-# <NOM_DU_PROJET>
-
-<!--
-  Modèle de démarrage POC/MVP.
-  Les <chevrons> sont remplis à l'issue du cadrage (/cadrage).
-  Ces commentaires HTML sont retirés avant injection dans le contexte : ils ne
-  coûtent aucun token. Notes pour l'équipe :
-   - viser < 200 lignes : au-delà, l'adhérence aux consignes baisse
-   - supprimer toute section vide plutôt que la laisser en <chevrons>
-   - une règle qui ne sert qu'à un sous-dossier va dans .claude/rules/ avec
-     un frontmatter `paths:`, pas ici
-   - `/clear` entre deux tâches sans rapport (moins cher et plus fiable que /compact)
--->
+# Kevin Clicker
 
 ## Contexte
 
-- **But** : <une phrase — qui s'en sert, pour résoudre quel problème>
-- **Statut** : POC/MVP. On cherche à valider un usage, pas à livrer en production.
-- **Hors périmètre** : <ce qu'on ne fait explicitement PAS dans ce MVP>
+- **But** : un jeu web de type Cookie Clicker où l'on clique sur la tête de notre professeur Kévin Niel pour gagner de l'argent et acheter des améliorations. Exercice de rentrée M2, à produire en une heure.
+- **Statut** : POC. On cherche à livrer quelque chose de jouable et drôle, pas un produit.
+- **Hors périmètre** : comptes utilisateurs, serveur, prestige, succès, sons, classement en ligne, responsive mobile.
 
 ## Stack
 
-- Langage / runtime : <>
-- Framework : <>
-- Persistance : <>
-- Tests : <>
-- Exécution : <local uniquement pour le MVP>
+- Langage / runtime : HTML, CSS, JavaScript vanilla (ES2020, navigateur)
+- Framework : aucun, volontairement
+- Persistance : `localStorage`, une clé JSON
+- Tests : aucun test automatisé — vérification manuelle décrite dans `docs/plan-mvp.md`
+- Exécution : ouvrir `index.html` dans le navigateur, local uniquement
 
 Aucune dépendance nouvelle sans validation : proposer, attendre le feu vert, puis installer.
+Ici, l'objectif est de n'en avoir **aucune**.
 
 ## Commandes
 
-| Action        | Commande |
-| ------------- | -------- |
-| Installer     | `<>`     |
-| Lancer en dev | `<>`     |
-| Tester        | `<>`     |
-| Lint / format | `<>`     |
+| Action        | Commande                                                    |
+| ------------- | ----------------------------------------------------------- |
+| Installer     | rien à installer                                            |
+| Lancer en dev | ouvrir `index.html` (ou `python -m http.server` si besoin)   |
+| Tester        | à la main, voir la section « Vérification » de chaque étape  |
+| Lint / format | aucun outil                                                 |
 
 ## Conventions
 
-- <indentation, ex. « 2 espaces, pas de tabulation »>
-- <nommage, ex. « fichiers en kebab-case, composants en PascalCase »>
-- <emplacement imposé, ex. « les appels API vivent dans `src/api/` »>
+- Indentation : 2 espaces, pas de tabulation.
+- Fichiers en kebab-case. Constantes de configuration en `SCREAMING_SNAKE_CASE`.
+- Trois fichiers seulement : `index.html`, `style.css`, `game.js`. Les images dans `assets/`.
+- Tout l'état du jeu dans un unique objet `state`. Toute la configuration des améliorations dans le tableau `UPGRADES`.
 - Commentaires : uniquement pour un *pourquoi* non évident. Jamais de paraphrase du code.
-- Commits : <format>
+- Commits : `type: description courte à l'impératif` (ex. `feat: boutique et achat des améliorations`).
 
 ## Méthode de travail
 
@@ -67,18 +57,10 @@ Pendant l'implémentation :
 - **Compréhension avant vitesse.** À la fin de chaque étape, résumer en 2 ou 3 phrases ce que fait le code et le compromis retenu. Nous devons pouvoir maintenir ce code sans toi.
 - **Le plus simple qui marche.** Pas d'abstraction, de couche générique, de cache ni de gestion d'erreur exhaustive tant que le besoin n'est pas constaté.
 - **Pas de code spéculatif** : pas de fonction « au cas où », pas de TODO pour plus tard.
-- **Secrets** : jamais en dur. `.env` + `.env.example` tenu à jour.
 - **Ambiguïté coûteuse** (modèle de données, dépendance, parcours utilisateur) : poser la question plutôt que trancher seul.
 - **Interface** : suivre `docs/direction-visuelle.md`. Ne pas produire la mise en page générique par défaut (héros centré, cartes à trois colonnes, dégradé violet).
+- **Le temps est la contrainte principale.** Une heure. Devant un arbitrage, choisir ce qui est jouable maintenant.
 
 ## Documents
 
 `docs/contexte.md`, `docs/plan-mvp.md`, `docs/direction-visuelle.md` : à lire avant de coder sur un sujet qui les concerne.
-
-<!--
-  Si un document doit être chargé à CHAQUE session, l'importer explicitement :
-  @docs/contexte.md
-  Attention : un fichier importé est chargé au lancement et consomme du contexte
-  en permanence. N'en importer qu'un, court, et laisser les autres en lecture à
-  la demande (écrits entre backticks comme ci-dessus, ils ne sont pas importés).
--->
