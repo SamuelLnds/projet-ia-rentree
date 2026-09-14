@@ -122,7 +122,7 @@ Après Microlead, le `€/s` doit faire un bond visible, pas `+1`. Skraap.it doi
 
 ---
 
-## - [ ] 7. Habillage
+## - [x] 7. Habillage
 
 **Produit** : les huit demandes cosmétiques du premier retour, d'un bloc parce
 qu'elles touchent toutes la même mise en page.
@@ -142,6 +142,71 @@ le portrait prend toute la largeur. Survoler le portrait : l'anneau s'éclaire.
 
 **Incertitude** : le plafond de 60 particules est un chiffre choisi à vue. À
 vérifier en matraquant le clic ; à baisser si ça rame.
+
+---
+
+---
+
+# Cycle 3 — le speedrun
+
+## - [x] 8. Chronomètre et écran de victoire
+
+**Produit** : un minuteur `m:ss.cc` dans la barre haute, démarré au premier clic,
+arrêté au premier achat de Skraap.it. Écran de victoire avec le temps final, le
+meilleur temps, et un bouton pour relancer. Record gardé dans `localStorage`.
+
+**Fichiers** : `index.html`, `style.css`, `game.js`.
+
+**Vérification** : cliquer une fois, le minuteur part. Se donner de quoi acheter
+Skraap.it : l'écran tombe, le minuteur se fige. Relancer remet tout à zéro sauf
+le record.
+
+---
+
+## - [x] 9. Bonus temporaires
+
+**Produit** : un second bloc dans la boutique, trois bonus à coût fixe donnant un
+multiplicateur pendant quelques secondes, avec décompte visible.
+
+**Fichiers** : `game.js`, `style.css`, `index.html`.
+
+**Vérification** : acheter le bonus de clic, le `€/s` doit bondir tant qu'il est
+actif puis retomber. Deux bonus actifs se multiplient.
+
+---
+
+## - [x] 10. Couleurs, combo et billets dessinés
+
+**Produit** : la couleur par amélioration, le compteur qui pulse, le combo qui
+monte et change de teinte, le flash de la ligne achetée, et les billets SVG à
+cinq coupures qui remplacent les pastilles à symbole.
+
+**Fichiers** : `style.css`, `game.js`.
+
+**Vérification** : cliquer vite — le combo monte, les billets volent, la coupure
+grossit avec la valeur du clic. Rien ne saccade.
+
+**Incertitude** : le plafond passe de 60 à 90 particules alors que chaque
+particule est maintenant un SVG et non plus une pastille. À surveiller.
+
+---
+
+## - [x] 11. Vrais billets et dernier palier
+
+**Produit** : les billets dessinés sont remplacés par les images *specimen*
+officielles de la BCE (série Europa, 6 coupures), récupérées une fois et posées
+dans `assets/`. Le jeu reste hors ligne. Elles sont affichées en fond CSS et
+préchargées : un billet ne vit que 900 ms, il serait déjà parti avant la fin du
+téléchargement.
+
+Ajout du dernier palier : **Chat GPT 4**, 50 000 €, +8 000 €/s — le livre de
+Kévin Niel, « Apprenez à exploiter le potentiel de l'Intelligence Artificielle ».
+C'est lui, désormais, qui met fin à la run.
+
+**Fichiers** : `game.js`, `style.css`, `assets/billet-*.jpg`.
+
+**Vérification** : cliquer, les billets sont de vraies photos. Acheter le livre :
+l'écran de victoire tombe.
 
 ---
 

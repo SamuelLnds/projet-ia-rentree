@@ -109,6 +109,40 @@ trajectoire : d'abord la prestation à la main, ensuite les produits qui tournen
 | 3 | **Prospect-it** | CRM de relance automatisée | Revenu récurrent, moyen |
 | 4 | **Skraap.it** | Leads B2B qualifiés en un clic | Revenu récurrent, gros |
 
+## Cycle 3 — le jeu devient un speedrun
+
+Le deuxième retour change la nature de l'objet : on ne cherche plus seulement à
+faire tourner un clicker, mais à donner envie de **recommencer**. D'où un but,
+un chronomètre et une fin.
+
+**Le but.** La run démarre au premier clic et s'arrête au premier achat de
+Skraap.it, le dernier palier. Écran de victoire avec le temps final et le
+meilleur temps. Pas de compte, pas de classement en ligne : le record est dans
+`localStorage`, comme le reste.
+
+**Le chronomètre ne compte que le temps joué.** Il est incrémenté dans la boucle
+de jeu, pas calculé depuis un horodatage de départ. Sinon fermer l'onglet une
+nuit ruinerait la run — or rien n'oblige à jouer d'une traite.
+
+**Les bonus temporaires** sont un second type d'achat : on paie une somme fixe
+pour un multiplicateur pendant quelques secondes. Ils ne se cumulent pas avec
+eux-mêmes ; relancer un bonus actif remet son minuteur à zéro. Ils ne sont pas
+sauvegardés — ce sont des effets, pas une progression.
+
+**Le combo** récompense la cadence : des clics enchaînés à moins de 1,2 s
+d'intervalle font monter un multiplicateur plafonné à ×2,5. C'est ce qui rend le
+clic manuel pertinent dans une optique de speedrun, alors que l'équilibrage du
+cycle 2 le rendait négligeable en fin de partie.
+
+### Décisions
+
+| Décision | Justification |
+| --- | --- |
+| Billets dessinés en SVG, pas photographiés | Reproduire un billet en euro est encadré par la BCE, et une image distante casserait le hors-ligne. Le décalage comique recherché tient au détail du dessin, pas à la photo. |
+| Bonus à coût fixe, pas de coût croissant | Ce sont des consommables, pas une progression. Un coût croissant les rendrait inutilisables en fin de run, là où ils servent justement. |
+| Multiplicateurs multiplicatifs entre eux | Deux bonus actifs se multiplient. C'est ce qui crée le pic de dopamine recherché. |
+| Témoignages de `kevinniel.fr` abandonnés | Demandés puis retirés du périmètre par le commanditaire. Note technique conservée : le jeu n'aurait pas pu les appeler à l'exécution (CORS, hors-ligne), il aurait fallu les recopier dans le code. |
+
 ## Questions ouvertes
 
 - ~~L'image de Kevin n'est pas encore fournie.~~ **Réglé** : `assets/kevin.png`,

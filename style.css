@@ -5,9 +5,14 @@
   --line: #2a2e26;
   --text: #e6e8e1;
   --muted: #868c78;
-  --accent: #6fcf5f;
-  --unavailable: #9c5f52;
   --disabled: #4a4f42;
+
+  --vert: #6fcf5f;
+  --or: #e8b53a;
+  --rouge: #e05a4e;
+  --bleu: #4a9fe0;
+  --violet: #a96fd4;
+  --rose: #e8709e;
 
   --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
   --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
@@ -34,12 +39,13 @@ body {
   user-select: none;
 }
 
-/* Barre haute */
+/* --- Barre haute --- */
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   flex: 0 0 60px;
   padding: 0 20px;
   border-bottom: 1px solid var(--line);
@@ -53,7 +59,38 @@ body {
 }
 
 .brand span {
-  color: var(--accent);
+  color: var(--vert);
+}
+
+.chrono {
+  margin-left: auto;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.timer.running {
+  color: var(--vert);
+}
+
+.timer.done {
+  color: var(--or);
+}
+
+.best {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .toggle {
@@ -70,8 +107,8 @@ body {
 }
 
 .toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--vert);
+  color: var(--vert);
 }
 
 .toggle svg {
@@ -89,7 +126,7 @@ body {
   transform: rotate(180deg);
 }
 
-/* Corps */
+/* --- Corps --- */
 
 main {
   display: grid;
@@ -112,7 +149,7 @@ main.shop-closed .shop {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
   overflow: hidden;
   padding: 24px;
 }
@@ -133,11 +170,36 @@ main.shop-closed .shop {
   line-height: 1;
 }
 
+.money.pop {
+  animation: pop 180ms ease-out;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.06);
+  }
+}
+
 .rate {
   margin-top: 6px;
   font-family: var(--mono);
   font-size: 14px;
-  color: var(--accent);
+  color: var(--vert);
+}
+
+.combo {
+  height: 20px;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.combo.on {
+  opacity: 1;
 }
 
 /* Portrait : seule courbe de l'interface. */
@@ -147,7 +209,7 @@ main.shop-closed .shop {
   z-index: 2;
   display: grid;
   place-items: end center;
-  width: min(38vh, 340px);
+  width: min(34vh, 300px);
   aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -160,7 +222,7 @@ main.shop-closed .shop {
 }
 
 .portrait:hover {
-  border-color: var(--accent);
+  border-color: var(--vert);
   transform: scale(1.02);
 }
 
@@ -174,15 +236,39 @@ main.shop-closed .shop {
   -webkit-user-drag: none;
 }
 
-/* Particules */
+/* Bonus en cours, sous le portrait. */
+
+.actives {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  height: 26px;
+}
+
+.active-boost {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* --- Particules --- */
 
 .gain {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   font-family: var(--mono);
   font-size: 18px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--vert);
   pointer-events: none;
   animation: rise 600ms ease-out forwards;
 }
@@ -196,19 +282,18 @@ main.shop-closed .shop {
 
 .bill {
   position: absolute;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 15px;
-  border: 1px solid var(--accent);
-  border-radius: 2px;
-  background: rgba(111, 207, 95, 0.12);
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--accent);
   pointer-events: none;
+}
+
+.bill {
+  width: 62px;
+  height: 33px;
+  border-radius: 1px;
+  background-size: cover;
+}
+
+.bill.fly {
+  z-index: 3;
   animation: fly 900ms ease-out forwards;
 }
 
@@ -220,21 +305,10 @@ main.shop-closed .shop {
 }
 
 /* Décor : derrière le portrait, opacité basse, ce n'est pas une information. */
-.coin {
-  position: absolute;
+.bill.fall {
   z-index: 1;
-  top: -32px;
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border: 1px solid var(--disabled);
-  border-radius: 50%;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--disabled);
-  pointer-events: none;
+  top: -40px;
+  opacity: 0.3;
   animation: fall var(--dur) linear forwards;
 }
 
@@ -242,11 +316,11 @@ main.shop-closed .shop {
   from {
     opacity: 0;
   }
-  10% {
-    opacity: 1;
+  12% {
+    opacity: 0.3;
   }
-  90% {
-    opacity: 1;
+  88% {
+    opacity: 0.3;
   }
   to {
     transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
@@ -254,17 +328,18 @@ main.shop-closed .shop {
   }
 }
 
-/* Boutique */
+/* --- Boutique --- */
 
 .shop {
   display: flex;
   flex-direction: column;
   background: var(--surface);
   border-left: 1px solid var(--line);
+  overflow-y: auto;
 }
 
 .shop-head {
-  padding: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--line);
   font-size: 11px;
   font-weight: 700;
@@ -273,11 +348,13 @@ main.shop-closed .shop {
   color: var(--muted);
 }
 
+.boosts {
+  flex: 0 0 auto;
+}
+
 .upgrades {
-  flex: 1;
   list-style: none;
   padding: 0;
-  overflow-y: auto;
 }
 
 .upgrade {
@@ -304,7 +381,17 @@ main.shop-closed .shop {
 }
 
 .upgrade.locked .u-cost {
-  color: var(--unavailable);
+  color: var(--rouge);
+}
+
+.upgrade.flash {
+  animation: flash 400ms ease-out;
+}
+
+@keyframes flash {
+  from {
+    background: currentColor;
+  }
 }
 
 .u-icon {
@@ -316,7 +403,6 @@ main.shop-closed .shop {
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  color: var(--accent);
 }
 
 .u-line {
@@ -352,10 +438,10 @@ main.shop-closed .shop {
 .u-cost {
   font-size: 13px;
   font-weight: 700;
-  color: var(--accent);
 }
 
 .reset {
+  margin-top: auto;
   padding: 12px 16px;
   border: 0;
   border-top: 1px solid var(--line);
@@ -371,5 +457,80 @@ main.shop-closed .shop {
 
 .reset:hover {
   background: var(--hover);
-  color: var(--unavailable);
+  color: var(--rouge);
+}
+
+/* --- Victoire --- */
+
+.victory {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 15, 13, 0.92);
+  animation: fade 300ms ease-out;
+}
+
+.victory[hidden] {
+  display: none;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.victory-card {
+  padding: 40px 56px;
+  border: 1px solid var(--or);
+  border-radius: 2px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.victory-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--or);
+}
+
+.victory-time {
+  margin: 14px 0 10px;
+  font-family: var(--mono);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.victory-text {
+  max-width: 34ch;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.victory-btn {
+  margin-top: 24px;
+  padding: 12px 26px;
+  border: 1px solid var(--or);
+  border-radius: 2px;
+  background: none;
+  color: var(--or);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.victory-btn:hover {
+  background: var(--or);
+  color: var(--bg);
 }

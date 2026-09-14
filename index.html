@@ -13,6 +13,12 @@
   <body>
     <header class="topbar">
       <h1 class="brand">Kevin <span>Clicker</span></h1>
+
+      <div class="chrono">
+        <div class="timer" id="timer">0:00.00</div>
+        <div class="best" id="best">record &mdash;</div>
+      </div>
+
       <button
         class="toggle"
         id="toggle"
@@ -30,6 +36,7 @@
         <div class="totals">
           <div class="money" id="money">0 &euro;</div>
           <div class="rate" id="rate">0 &euro;/s</div>
+          <div class="combo" id="combo"></div>
         </div>
 
         <div class="portrait" id="portrait">
@@ -41,14 +48,29 @@
             draggable="false"
           />
         </div>
+
+        <div class="actives" id="actives"></div>
       </section>
 
       <aside class="shop" id="shop">
         <div class="shop-head">Am&eacute;liorations</div>
         <ul class="upgrades" id="upgrades"></ul>
-        <button class="reset" id="reset" type="button">Effacer la partie</button>
+
+        <div class="shop-head">Bonus temporaires</div>
+        <ul class="upgrades boosts" id="boosts"></ul>
+
+        <button class="reset" id="reset" type="button">Relancer une run</button>
       </aside>
     </main>
+
+    <div class="victory" id="victory" hidden>
+      <div class="victory-card">
+        <div class="victory-kicker">Run termin&eacute;e</div>
+        <div class="victory-time" id="victoryTime">0:00.00</div>
+        <p class="victory-text" id="victoryText"></p>
+        <button class="victory-btn" id="again" type="button">Nouvelle run</button>
+      </div>
+    </div>
 
     <script src="game.js"></script>
   </body>
