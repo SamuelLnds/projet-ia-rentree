@@ -5,23 +5,24 @@ Budget visé : une heure au total. Si le temps manque, l'étape 5 saute sans dom
 
 ---
 
-## - [ ] 1. Le clic rapporte
+## - [x] 1. Le clic rapporte
 
 **Produit** : une page ouvrable qui affiche la tête de Kevin, un total à `0 €`, et
 qui monte de 1 € à chaque clic. La direction visuelle est appliquée d'emblée
 (couleurs, typo, mise en page deux colonnes) pour ne pas avoir à repasser derrière.
 
-**Fichiers** : `index.html`, `style.css`, `game.js`, `assets/kevin.png` (placeholder).
+**Fichiers** : `index.html`, `style.css`, `game.js`, `assets/kevin.png`.
 
 **Vérification** : ouvrir `index.html` dans le navigateur, cliquer dix fois,
 le compteur affiche `10 €`. La colonne de droite est présente mais vide.
 
-**Note** : le placeholder est une image temporaire. Le vrai fichier prendra sa
-place sous le même nom, sans toucher au code.
+**Note** : développé contre un placeholder, remplacé en cours de route par la
+vraie photo (détourée, fond transparent) déposée sous le même nom. Aucun code à
+changer, seulement le retrait de la bordure qui encadrait le placeholder.
 
 ---
 
-## - [ ] 2. La boutique et l'achat
+## - [x] 2. La boutique et l'achat
 
 **Produit** : les quatre améliorations s'affichent, avec leur prix et le nombre
 déjà possédé. Cliquer sur une ligne abordable débite l'argent, incrémente le
@@ -44,19 +45,29 @@ prix passe à 17 € et que chaque clic rapporte désormais 2 €.
 
 ---
 
-## - [ ] 3. Le revenu automatique
+## - [x] 3. Le revenu automatique
 
 **Produit** : une boucle à 10 Hz qui ajoute le revenu passif. Les trois dernières
 améliorations deviennent réellement utiles. Le `€/s` s'affiche sous le total.
+
+**Ajout demandé en cours de route** : le `€/s` compte aussi la cadence de clic.
+Les clics des 3 dernières secondes sont horodatés, on en déduit un nombre de clics
+par seconde, multiplié par la valeur du clic. Au repos le chiffre redescend au
+revenu passif seul. Cette cadence est une mesure, pas une progression : elle n'est
+pas sauvegardée.
 
 **Fichiers** : `game.js`.
 
 **Vérification** : acheter Microlead, poser la souris, regarder le compteur monter
 de 1 € par seconde. Le `€/s` affiché correspond à la somme des productions.
 
+*Mesuré* : 5,50 € gagnés en 5,51 s à 1 €/s. Avec 3 × NK (clic à 4 €) et
+2 × Microlead, six clics en trois secondes affichent bien 10 €/s (2 passif +
+2 clics/s × 4 €), puis 2 €/s une fois la souris relâchée.
+
 ---
 
-## - [ ] 4. La sauvegarde
+## - [x] 4. La sauvegarde
 
 **Produit** : l'état est écrit dans `localStorage` toutes les 5 secondes et à la
 fermeture de l'onglet. Il est relu au chargement. Un bouton discret en bas de la
@@ -67,14 +78,18 @@ colonne efface la partie, avec confirmation.
 **Vérification** : jouer, F5, retrouver son argent et ses achats. Cliquer sur
 « effacer », confirmer, tout repart à zéro.
 
-**Incertitude** : un fichier ouvert en `file://` a bien accès à `localStorage` sur
-Chrome et Firefox, mais le stockage est cloisonné par fichier. À vérifier au
-moment de l'étape ; si ça coince, on sert le dossier avec un serveur statique
-(`python -m http.server`) et on le note dans les commandes.
+**Incertitude levée** : la vérification a été faite via `python -m http.server`
+(configuration dans `.claude/launch.json`), pas en `file://`. Sur ce serveur,
+4 242 € et les achats survivent au rechargement. Le comportement en `file://`
+n'a **pas** été testé : en cas de doute, servir le dossier.
+
+À noter : la sauvegarde sur `beforeunload` réécrit l'état juste avant un
+rechargement. Vider `localStorage` à la console puis recharger ne remet donc rien
+à zéro — il faut passer par le bouton « effacer ».
 
 ---
 
-## - [ ] 5. Les finitions
+## - [x] 5. Les finitions
 
 **Produit** : ce qui rend le clic agréable, et rien d'autre.
 

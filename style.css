@@ -1,0 +1,226 @@
+:root {
+  --bg: #0e0f0d;
+  --surface: #171915;
+  --hover: #1f2219;
+  --line: #2a2e26;
+  --text: #e6e8e1;
+  --muted: #868c78;
+  --accent: #6fcf5f;
+  --unavailable: #9c5f52;
+  --disabled: #4a4f42;
+
+  --sans: -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  /* Le clic répété sélectionne le texte et fait apparaître le menu de recherche. */
+  user-select: none;
+}
+
+/* Barre haute */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 56px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.totals {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.money {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rate {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+}
+
+/* Corps */
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  flex: 1;
+  min-height: 0;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 32px;
+}
+
+/* L'image est détourée sur fond transparent : pas de cadre, la tête flotte sur le fond. */
+.kevin {
+  width: min(52vh, 100%);
+  max-width: 460px;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+  -webkit-user-drag: none;
+}
+
+.kevin:active {
+  transform: scale(0.96);
+}
+
+/* Gain volant */
+
+.gain {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  pointer-events: none;
+  animation: rise 600ms ease-out forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* Boutique */
+
+.shop {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+}
+
+.shop-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.upgrades {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.upgrade {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.upgrade:hover {
+  background: var(--hover);
+}
+
+.upgrade.locked {
+  cursor: not-allowed;
+}
+
+.upgrade.locked .u-name,
+.upgrade.locked .u-effect {
+  color: var(--disabled);
+}
+
+.upgrade.locked .u-cost {
+  color: var(--unavailable);
+}
+
+.u-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.u-line + .u-line {
+  margin-top: 5px;
+}
+
+.u-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.u-count,
+.u-effect {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.u-count,
+.u-cost {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.u-cost {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.reset {
+  padding: 12px 16px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reset:hover {
+  background: var(--hover);
+  color: var(--unavailable);
+}

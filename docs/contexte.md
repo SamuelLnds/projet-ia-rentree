@@ -30,7 +30,8 @@ Le joueur type est un camarade de promo qui clique deux minutes pour voir la bla
 - Un clic = de l'argent.
 - Quatre améliorations achetables, à prix croissant, achetables plusieurs fois.
 - Une améliore le clic, trois produisent automatiquement.
-- Total d'argent et revenu par seconde affichés en permanence.
+- Total d'argent et revenu par seconde affichés en permanence. Le `€/s` inclut la
+  cadence de clic mesurée sur les 3 dernières secondes, pas seulement le passif.
 - Sauvegarde locale automatique.
 - Un bouton pour effacer la partie.
 
@@ -77,8 +78,10 @@ trajectoire : d'abord la prestation à la main, ensuite les produits qui tournen
 
 ## Questions ouvertes
 
-- **L'image de Kevin n'est pas encore fournie.** On code contre un placeholder
-  `assets/kevin.png`. Le remplacement du fichier suffira, aucun code à toucher.
-  → à confirmer : le cadrage de l'image (carrée ? détourée ?).
+- ~~L'image de Kevin n'est pas encore fournie.~~ **Réglé** : `assets/kevin.png`,
+  310 × 330, PNG RVBA détouré sur fond transparent. Le style en tient compte —
+  pas de cadre autour, la tête flotte sur le fond sombre.
+  → reste à juger à l'œil : le détourage laisse un liseré clair sur les cheveux,
+  visible sur fond sombre. À voir si ça gêne.
 - **Le ton** : on reste bon enfant. Si une formulation dérape, elle se change en un
   endroit unique (le tableau `UPGRADES` dans `game.js`).

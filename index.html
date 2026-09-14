@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kevin Clicker</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230E0F0D'/%3E%3Ctext x='16' y='24' font-family='monospace' font-size='24' font-weight='bold' fill='%236FCF5F' text-anchor='middle'%3E%E2%82%AC%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Kevin Clicker</div>
+      <div class="totals">
+        <div class="money" id="money">0 &euro;</div>
+        <div class="rate" id="rate">0 &euro;/s</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="stage" id="stage">
+        <img
+          class="kevin"
+          id="kevin"
+          src="assets/kevin.png"
+          alt="Kevin — cliquer pour gagner de l'argent"
+          draggable="false"
+        />
+      </section>
+
+      <aside class="shop">
+        <div class="shop-head">Am&eacute;liorations</div>
+        <ul class="upgrades" id="upgrades"></ul>
+        <button class="reset" id="reset" type="button">Effacer la partie</button>
+      </aside>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
