@@ -62,7 +62,40 @@ Observable, en une seule session de jeu :
 | `localStorage`, une seule clé JSON | Dix lignes, aucune infrastructure. Suffisant pour un jeu solo local. |
 | Boucle de jeu à 10 Hz (`setInterval` 100 ms) | Compteur fluide sans coût. `requestAnimationFrame` serait plus correct mais inutile ici. |
 | Coûts × 1,15 à chaque achat | Courbe de Cookie Clicker, éprouvée. Pas de game design à inventer. |
-| Valeurs de départ reprises de Cookie Clicker (15 / 100 / 1 100 / 12 000) | Progression connue pour être plaisante sur les premières minutes. |
+| Grille de valeurs recalée après test (voir ci-dessous) | La reprise brute de Cookie Clicker était fausse : son premier bâtiment produit du passif, le mien produit du clic. |
+
+## Équilibrage
+
+**L'erreur d'origine.** J'avais repris la grille de Cookie Clicker
+(15 / 100 / 1 100 / 12 000) en changeant la nature du premier bâtiment : son
+curseur donne `+0,1` de production *passive*, mon NK Informatique donnait `+1 €`
+par *clic*. À 4 clics/seconde, cela vaut `+4 €/s` pour 15 € — dix fois trop fort
+pour cette grille de prix. Conséquence mesurée par simulation : 14 achats de NK
+avant le premier Microlead, Skraap.it jamais atteint en 5 minutes, et le clic
+représentant 68 % du revenu final. Les améliorations passives étaient décoratives.
+
+**La correction.** Puissance du clic divisée par deux, revenus passifs multipliés
+par 6 à 17, coût du dernier palier réduit de moitié.
+
+| Amélioration | Avant | Après |
+| --- | --- | --- |
+| NK Informatique | 15 € — +1 €/clic | **20 € — +0,5 €/clic** |
+| Microlead | 100 € — +1 €/s | **100 € — +8 €/s** |
+| Prospect-it | 1 100 € — +8 €/s | **900 € — +90 €/s** |
+| Skraap.it | 12 000 € — +47 €/s | **5 000 € — +800 €/s** |
+
+**Vérification.** Simulation d'un joueur achetant toujours le meilleur rendement
+par euro parmi ce qu'il peut se payer, sur 5 minutes :
+
+| | Avant | Après |
+| --- | --- | --- |
+| Part du passif dans le revenu (4 clics/s) | 32 % | **99 %** |
+| Skraap.it atteint ? | non | **oui, vers 4 min** |
+| Arrivée des paliers | NK 4 s, Microlead 25 s, Prospect-it 2 min 39 | **NK 5 s, Microlead 44 s, Prospect-it 2 min 26, Skraap.it 4 min 13** |
+
+Le modèle de joueur compte : un joueur « épargnant parfait » qui vise le meilleur
+temps de retour se bloque à viser Skraap.it et n'achète plus rien. C'est le
+modèle glouton qui décrit un joueur réel, et c'est celui qui a servi au réglage.
 
 ## Thème
 

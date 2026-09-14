@@ -105,6 +105,46 @@ saccade et les nombres restent lisibles.
 
 ---
 
+---
+
+# Cycle 2 — après le premier test
+
+## - [x] 6. Rééquilibrage
+
+**Produit** : la grille de valeurs corrigée (voir `docs/contexte.md`, section
+« Équilibrage »). Les trois améliorations passives cessent d'être décoratives.
+
+**Fichiers** : `game.js` (tableau `UPGRADES`).
+
+**Vérification** : acheter une fois chaque amélioration dès qu'elle est abordable.
+Après Microlead, le `€/s` doit faire un bond visible, pas `+1`. Skraap.it doit
+être atteignable en quelques minutes sans s'acharner.
+
+---
+
+## - [ ] 7. Habillage
+
+**Produit** : les huit demandes cosmétiques du premier retour, d'un bloc parce
+qu'elles touchent toutes la même mise en page.
+
+- Portrait dans un cadre circulaire, avec effet de survol.
+- Compteur d'argent et `€/s` déplacés au-dessus du portrait.
+- Titre du jeu mis en valeur (22 px, « CLICKER » en accent).
+- Panneau d'améliorations repliable.
+- Pictogrammes SVG sur chaque amélioration.
+- Billets qui volent au clic, pluie de pièces en fond.
+
+**Fichiers** : `index.html`, `style.css`, `game.js`.
+
+**Vérification** : cliquer une trentaine de fois d'affilée — les billets partent,
+les pièces tombent derrière le portrait, rien ne saccade. Replier le panneau :
+le portrait prend toute la largeur. Survoler le portrait : l'anneau s'éclaire.
+
+**Incertitude** : le plafond de 60 particules est un chiffre choisi à vue. À
+vérifier en matraquant le clic ; à baisser si ça rame.
+
+---
+
 ## Après le MVP (non planifié)
 
 Volontairement laissé de côté : prestige, succès, sons, classement, responsive

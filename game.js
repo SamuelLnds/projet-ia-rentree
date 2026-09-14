@@ -6,14 +6,49 @@ const BASE_CLICK = 1;
 // Fenêtre glissante sur laquelle on mesure la cadence de clic. Trop courte, le
 // chiffre saute à chaque clic ; trop longue, il met du temps à retomber à zéro.
 const CLICK_WINDOW_MS = 3000;
+// Un joueur qui matraque le clic ne doit pas faire ramer la page.
+const MAX_PARTICLES = 60;
+const BILLS_PER_CLICK = 3;
 
 // Les quatre projets de Kévin Niel, du travail à la main vers les revenus passifs.
-// Coûts repris de la courbe de Cookie Clicker : elle est éprouvée sur les premières minutes.
+// Grille recalée après le premier test : voir docs/contexte.md, section « Équilibrage ».
 const UPGRADES = [
-  { id: "nk", name: "NK Informatique", baseCost: 15, effect: "+1 €/clic", click: 1, rate: 0 },
-  { id: "microlead", name: "Microlead", baseCost: 100, effect: "+1 €/s", click: 0, rate: 1 },
-  { id: "prospectit", name: "Prospect-it", baseCost: 1100, effect: "+8 €/s", click: 0, rate: 8 },
-  { id: "skraapit", name: "Skraap.it", baseCost: 12000, effect: "+47 €/s", click: 0, rate: 47 },
+  {
+    id: "nk",
+    name: "NK Informatique",
+    baseCost: 20,
+    effect: "+0,5 €/clic",
+    click: 0.5,
+    rate: 0,
+    icon: '<path d="M7 5 2 10l5 5"/><path d="M13 5l5 5-5 5"/>',
+  },
+  {
+    id: "microlead",
+    name: "Microlead",
+    baseCost: 100,
+    effect: "+8 €/s",
+    click: 0,
+    rate: 8,
+    icon: '<path d="M10 3 1.5 7 10 11l8.5-4L10 3Z"/><path d="M5.5 8.8V13c0 1.4 2 2.4 4.5 2.4s4.5-1 4.5-2.4V8.8"/>',
+  },
+  {
+    id: "prospectit",
+    name: "Prospect-it",
+    baseCost: 900,
+    effect: "+90 €/s",
+    click: 0,
+    rate: 90,
+    icon: '<path d="M2.5 4h15l-5.8 7v5.6l-3.4-2V11L2.5 4Z"/>',
+  },
+  {
+    id: "skraapit",
+    name: "Skraap.it",
+    baseCost: 5000,
+    effect: "+800 €/s",
+    click: 0,
+    rate: 800,
+    icon: '<path d="M4 3.5h4v6.8a2 2 0 0 0 4 0V3.5h4v6.8a6 6 0 0 1-12 0V3.5Z"/><path d="M4 8.2h4M12 8.2h4"/>',
+  },
 ];
 
 const state = { money: 0, owned: {} };
@@ -25,9 +60,11 @@ const els = {
   money: document.getElementById("money"),
   rate: document.getElementById("rate"),
   stage: document.getElementById("stage"),
-  kevin: document.getElementById("kevin"),
+  portrait: document.getElementById("portrait"),
   upgrades: document.getElementById("upgrades"),
   reset: document.getElementById("reset"),
+  layout: document.getElementById("layout"),
+  toggle: document.getElementById("toggle"),
 };
 
 const rows = new Map();
@@ -77,13 +114,16 @@ function buildShop() {
     const row = document.createElement("li");
     row.className = "upgrade";
     row.innerHTML = `
-      <div class="u-line">
-        <span class="u-name">${upgrade.name}</span>
-        <span class="u-count">×0</span>
-      </div>
-      <div class="u-line">
-        <span class="u-effect">${upgrade.effect}</span>
-        <span class="u-cost"></span>
+      <svg class="u-icon" viewBox="0 0 20 20" aria-hidden="true">${upgrade.icon}</svg>
+      <div>
+        <div class="u-line">
+          <span class="u-name">${upgrade.name}</span>
+          <span class="u-count">×0</span>
+        </div>
+        <div class="u-line">
+          <span class="u-effect">${upgrade.effect}</span>
+          <span class="u-cost"></span>
+        </div>
       </div>`;
     row.addEventListener("click", () => buy(upgrade));
 
@@ -109,15 +149,60 @@ function render() {
   }
 }
 
-function showGain(event, amount) {
-  const stage = els.stage.getBoundingClientRect();
+// --- Particules ---
+
+let particles = 0;
+
+function addParticle(node) {
+  if (particles >= MAX_PARTICLES) return;
+  particles += 1;
+  node.addEventListener("animationend", () => {
+    node.remove();
+    particles -= 1;
+  });
+  els.stage.appendChild(node);
+}
+
+function between(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function showGain(x, y, amount) {
   const gain = document.createElement("span");
   gain.className = "gain";
-  gain.textContent = `+${money(amount)}`;
-  gain.style.left = `${event.clientX - stage.left}px`;
-  gain.style.top = `${event.clientY - stage.top}px`;
-  gain.addEventListener("animationend", () => gain.remove());
-  els.stage.appendChild(gain);
+  gain.textContent = `+${rateFormat.format(amount)} €`;
+  gain.style.left = `${x}px`;
+  gain.style.top = `${y}px`;
+  addParticle(gain);
+}
+
+// Billets projetés en éventail depuis le curseur : la récompense immédiate du clic.
+function showBills(x, y) {
+  for (let i = 0; i < BILLS_PER_CLICK; i += 1) {
+    const bill = document.createElement("div");
+    bill.className = "bill";
+    bill.textContent = "€";
+    bill.style.left = `${x}px`;
+    bill.style.top = `${y}px`;
+    bill.style.setProperty("--dx", `${between(-70, 70)}px`);
+    bill.style.setProperty("--dy", `${between(-150, -90)}px`);
+    bill.style.setProperty("--rot", `${between(-50, 50)}deg`);
+    addParticle(bill);
+  }
+}
+
+// Décor de fond : une pièce par clic, qui traverse la scène lentement.
+function dropCoin() {
+  const { width, height } = els.stage.getBoundingClientRect();
+  const coin = document.createElement("div");
+  coin.className = "coin";
+  coin.textContent = "€";
+  coin.style.left = `${between(0, width - 22)}px`;
+  coin.style.setProperty("--dx", `${between(-60, 60)}px`);
+  coin.style.setProperty("--dy", `${height + 80}px`);
+  coin.style.setProperty("--rot", `${between(-180, 180)}deg`);
+  coin.style.setProperty("--dur", `${between(3, 5)}s`);
+  addParticle(coin);
 }
 
 // --- Sauvegarde ---
@@ -155,12 +240,25 @@ function reset() {
 
 // --- Démarrage ---
 
-els.kevin.addEventListener("click", (event) => {
+els.portrait.addEventListener("click", (event) => {
   const gain = clickValue();
   state.money += gain;
   recentClicks.push(Date.now());
-  showGain(event, gain);
+
+  const stage = els.stage.getBoundingClientRect();
+  const x = event.clientX - stage.left;
+  const y = event.clientY - stage.top;
+  showGain(x, y, gain);
+  showBills(x, y);
+  dropCoin();
+
   render();
+});
+
+els.toggle.addEventListener("click", () => {
+  const closed = els.layout.classList.toggle("shop-closed");
+  els.toggle.setAttribute("aria-expanded", String(!closed));
+  els.toggle.title = closed ? "Afficher le panneau" : "Replier le panneau";
 });
 
 els.reset.addEventListener("click", reset);

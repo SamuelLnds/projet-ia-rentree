@@ -59,6 +59,8 @@ Pendant l'implémentation :
 - **Pas de code spéculatif** : pas de fonction « au cas où », pas de TODO pour plus tard.
 - **Ambiguïté coûteuse** (modèle de données, dépendance, parcours utilisateur) : poser la question plutôt que trancher seul.
 - **Interface** : suivre `docs/direction-visuelle.md`. Ne pas produire la mise en page générique par défaut (héros centré, cartes à trois colonnes, dégradé violet).
+- **Sobre ne veut pas dire nu.** Refuser le générique n'autorise pas à livrer sans hiérarchie : un titre qui se voit, un état de survol sur tout élément cliquable et un retour visuel au clic sont attendus par défaut, sans qu'il faille les demander.
+- **Équilibrage de jeu** : ne pas reprendre une grille de valeurs existante sans vérifier qu'elle s'applique. Chiffrer par simulation avant de livrer.
 - **Le temps est la contrainte principale.** Une heure. Devant un arbitrage, choisir ce qui est jouable maintenant.
 
 ## Documents

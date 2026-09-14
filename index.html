@@ -12,25 +12,38 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">Kevin Clicker</div>
-      <div class="totals">
-        <div class="money" id="money">0 &euro;</div>
-        <div class="rate" id="rate">0 &euro;/s</div>
-      </div>
+      <h1 class="brand">Kevin <span>Clicker</span></h1>
+      <button
+        class="toggle"
+        id="toggle"
+        type="button"
+        aria-controls="shop"
+        aria-expanded="true"
+        title="Replier le panneau"
+      >
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4l-6 6 6 6" /></svg>
+      </button>
     </header>
 
-    <main>
+    <main id="layout">
       <section class="stage" id="stage">
-        <img
-          class="kevin"
-          id="kevin"
-          src="assets/kevin.png"
-          alt="Kevin — cliquer pour gagner de l'argent"
-          draggable="false"
-        />
+        <div class="totals">
+          <div class="money" id="money">0 &euro;</div>
+          <div class="rate" id="rate">0 &euro;/s</div>
+        </div>
+
+        <div class="portrait" id="portrait">
+          <img
+            class="kevin"
+            id="kevin"
+            src="assets/kevin.png"
+            alt="Kevin &mdash; cliquer pour gagner de l'argent"
+            draggable="false"
+          />
+        </div>
       </section>
 
-      <aside class="shop">
+      <aside class="shop" id="shop">
         <div class="shop-head">Am&eacute;liorations</div>
         <ul class="upgrades" id="upgrades"></ul>
         <button class="reset" id="reset" type="button">Effacer la partie</button>
